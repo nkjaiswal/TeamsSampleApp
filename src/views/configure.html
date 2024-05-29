@@ -1,0 +1,43 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/static/styles/custom.css" />
+    <script src="https://res.cdn.office.net/teams-js/2.9.1/js/MicrosoftTeams.min.js"
+        integrity="sha384-xnsUQ1tUqsrutBJl0vuf4/hufzLFWW8ZhGnhItfpQ0/BtWgM2uw6YT6BQ5YaKBSM"
+        crossorigin="anonymous"></script>
+    <script>
+        microsoftTeams.app.initialize().then(function () {
+            document.getElementById('welcomemessage').innerText = 'I am faking a configuration page, wait for 2 seconds';
+            setTimeout(() => {
+                microsoftTeams.settings.setValidityState(true);
+                document.getElementById('welcomemessage').innerText = 'Configuration done successfully';
+                microsoftTeams.settings.registerOnSaveHandler(saveEvent => {
+                    const origin = window.location.origin;
+                    const contentUrl = `${origin}/tab`;
+                    microsoftTeams.settings.setSettings({
+                        entityId: 't3.bot.tab',
+                        contentUrl,
+                        suggestedDisplayName: 'T3 App Tab',
+                    });
+                    saveEvent.notifySuccess();
+                });
+            }, 2000);
+        });
+    </script>
+    <title>Microsoft Teams Configure Tab</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div>
+        <h1 id="welcomemessage"></h1>
+    </div>
+    <script type="text/javascript">
+        microsoftTeams.appInitialization.notifySuccess();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/static/styles/custom.css" />
+  <script src="https://res.cdn.office.net/teams-js/2.23.0/js/MicrosoftTeams.min.js"
+    integrity="sha384-08XJvrutoSVYTA8PQeUgetTKn8B7JE73C5BdAfWnHZ5WnSFFQO6g1FGmSqxsrAzb"
+    crossorigin="anonymous"></script>
+  <script src="https://alcdn.msauth.net/browser/2.24.0/js/msal-browser.min.js">
+  </script>
+  <title>Microsoft Teams Tab</title>
+  <script src="/static/scripts/teamsapp.js"></script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div>
+    <input type="button" onclick="userTokenGetMe()" value="Fetch user details from User Token" />
+    <input type="button" onclick="userTokenGetChannelMember()" value="Fetch Channel Members from User Token" />
+    <input type="button" onclick="appTokenGetChannelMember()" value="Fetch Channel Member from App Token" />
+    <span>
+      <pre id="user-details"></pre>
+    </span>
+  </div>
+
+  <script type="text/javascript">
+    microsoftTeams.appInitialization.notifySuccess();
+  </script>
+</body>
+
+</html>
