@@ -142,10 +142,10 @@ const adapter = new BotFrameworkAdapter({
 
 adapter.onTurnError = async (context, error) => {
   console.error(`\n [onTurnError] unhandled error: ${error}`);
-  await context.sendActivity(`Oops. Something went wrong! ${error}`);
+  await context.sendActivity(`Oops. Something went wrong! ${error} ${JSON.stringify(context)}`);
 };
 
-const bot = new TeamsBot();
+const bot = new TeamsBot(adapter);
 server.post("/api/messages", async (req, res) => {
   await adapter.processActivity(req, res, async (context) => {
     await bot.run(context);
@@ -153,10 +153,6 @@ server.post("/api/messages", async (req, res) => {
 });
 
 server.get('/api/notify', async (req, res) => {
-  for (const conversationReference of Object.values(bot.getAllConversations())) {
-    await adapter.continueConversation(conversationReference, async (context) => {
-      await context.sendActivity('proactive hello');
-    });
-  }
+  bot.notifyAll();
   res.send('Proactive messages have been sent.')
 });

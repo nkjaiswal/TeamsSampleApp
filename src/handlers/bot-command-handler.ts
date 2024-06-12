@@ -1,9 +1,9 @@
-import { TeamsActivityHandler, TurnContext, Activity, TeamsInfo } from "botbuilder";
+import { TurnContext, TeamsInfo, CardFactory, Attachment } from "botbuilder";
 
 
 interface BotCommandHandler {
     validateCommand(command: string): boolean;
-    handleCommand(command: string, context: TurnContext): Promise<void>;
+    handleCommand(command: string, context: TurnContext): Promise<void | Attachment>;
 }
 
 class HelpBotCommandHandler implements BotCommandHandler {
@@ -125,8 +125,7 @@ export class BotCommandHandlerManager {
         const command = text.replace('<at>T3 Bot01</at> ', '').trim().toLowerCase();
         for (const handler of handlers) {
             if (handler.validateCommand(command)) {
-                await handler.handleCommand(command, context);
-                return;
+                return await handler.handleCommand(command, context);
             }
         }
         await context.sendActivity(`I'm sorry, I don't recognize the command "${command}". Type "help" to see the list of commands I support.`);
